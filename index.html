@@ -9,12 +9,15 @@
     
     <!-- FontAweome CDN Link for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
     <!-- start Quiz button -->
     <div class="start_btn"><button>Start Quiz</button></div>
-    <img src="pictures/logo.png" alt="" class="logo-banner">
-    <!-- Info Box -->
+
+    <a href="index.html">
+        <img src="pictures/logo.png" alt="" class="logo-banner">
+    </a>
     <div class="info_box">
         <div class="info-title"><span>Quiz Regeln</span></div>
         <div class="info-list">
@@ -36,7 +39,9 @@
             <div class="title">Quiz</div>
             <div class="timer">
                 <div class="time_left_txt">übrige Zeit</div>
-                <div class="timer_sec">15</div>
+                <div class="timer_sec"> 
+                    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                    </div>
             </div>
             <div class="time_line"></div>
         </header>

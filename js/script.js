@@ -26,11 +26,11 @@ continue_btn.onclick = ()=>{
     quiz_box.classList.add("activeQuiz"); //show quiz box
     showQuetions(0); //calling showQestions function
     queCounter(1); //passing 1 parameter to queCounter
-    startTimer(15); //calling startTimer function
+    startTimer(globalTime); //calling startTimer function
     startTimerLine(0); //calling startTimerLine function
 }
-
-let timeValue =  15;
+let globalTime = 25;
+let timeValue =  globalTime;
 let que_count = 0;
 let que_numb = 1;
 let userScore = 0;
@@ -45,7 +45,7 @@ const quit_quiz = result_box.querySelector(".buttons .quit");
 restart_quiz.onclick = ()=>{
     quiz_box.classList.add("activeQuiz"); //show quiz box
     result_box.classList.remove("activeResult"); //hide result box
-    timeValue = 15; 
+    timeValue = globalTime; 
     que_count = 0;
     que_numb = 1;
     userScore = 0;
@@ -79,8 +79,10 @@ next_btn.onclick = ()=>{
         clearInterval(counterLine); //clear counterLine
         startTimer(timeValue); //calling startTimer function
         startTimerLine(widthValue); //calling startTimerLine function
-        timeText.textContent = "Time Left"; //change the timeText to Time Left
+        timeText.textContent = "übrige Zeit"; //change the timeText to Time Left
         next_btn.classList.remove("show"); //hide the next button
+        const timer = document.querySelector(".quiz_box header .timer");
+        timer.style.cssText = "background: #67b0ff; color: #ffffff; border: 1px solid #b8daff;"; // base color
     }else{
         clearInterval(counter); //clear counter
         clearInterval(counterLine); //clear counterLine
@@ -94,10 +96,10 @@ function showQuetions(index){
 
     //creating a new span and div tag for question and option and passing the value using array index
     let que_tag = '<span>'+ questions[index].numb + ". " + questions[index].question +'</span>';
-    let option_tag = '<div class="option"><span>'+ questions[index].options[0] +'</span></div>'
-    + '<div class="option"><span>'+ questions[index].options[1] +'</span></div>'
-    + '<div class="option"><span>'+ questions[index].options[2] +'</span></div>'
-    + '<div class="option"><span>'+ questions[index].options[3] +'</span></div>';
+    let option_tag = '';
+    for(let i = 0; i < questions[index].options.length; i++){
+        option_tag += '<div class="option"><span>'+ questions[index].options[i] +'</span></div>';
+    }
     que_text.innerHTML = que_tag; //adding new span tag inside que_tag
     option_list.innerHTML = option_tag; //adding new div tag inside option_tag
     
@@ -150,33 +152,36 @@ function showResult(){
     quiz_box.classList.remove("activeQuiz"); //hide quiz box
     result_box.classList.add("activeResult"); //show result box
     const scoreText = result_box.querySelector(".score_text");
-    if (userScore > 3){ // if user scored more than 3
+    if (userScore > 8){ // if user scored more than
         //creating a new span tag and passing the user score number and total question number
         let scoreTag = '<span>Glückwunsch! du hast <p>'+ userScore +'</p> von <p>'+ questions.length +'</p> Punkten </span>';
         scoreText.innerHTML = scoreTag;  //adding new span tag inside score_Text
     }
-    else if(userScore > 1){ // if user scored more than 1
+    else if(userScore > 5){ // if user scored more than
         let scoreTag = '<span>super, du hast <p>'+ userScore +'</p> von <p>'+ questions.length +'</p> Punkten </span>';
         scoreText.innerHTML = scoreTag;
     }
-    else{ // if user scored less than 1
+    else{ // if user scored less than 
         let scoreTag = '<span>Oh schade.. du hast <p>'+ userScore +'</p> von <p>'+ questions.length +'</p> Punkten </span>';
         scoreText.innerHTML = scoreTag;
     }
 }
 
 function startTimer(time){
+    timer();
     counter = setInterval(timer, 1000);
     function timer(){
         timeCount.textContent = time; //changing the value of timeCount with time value
         time--; //decrement the time value
         if(time < 9){ //if timer is less than 9
             let addZero = timeCount.textContent; 
-            timeCount.textContent = "0" + addZero; //add a 0 before time value
+            timeCount.textContent = "" + addZero; //add a 0 before time value
         }
         if(time < 0){ //if timer is less than 0
             clearInterval(counter); //clear counter
             timeText.textContent = "Zeit abgelaufen"; //change the time text to time off
+            const timer = document.querySelector(".quiz_box header .timer");
+            timer.style.cssText = "background: #9B4C3E; color: #ffffff; border: 1px solid #a83535;";
             const allOptions = option_list.children.length; //getting all option items
             let correcAns = questions[que_count].answer; //getting correct answer from array
             for(i=0; i < allOptions; i++){
@@ -194,8 +199,10 @@ function startTimer(time){
     }
 }
 
+let intervalTime = globalTime*1000 / 550; // etwa 45.45 Millisekunden
+
 function startTimerLine(time){
-    counterLine = setInterval(timer, 29);
+    counterLine = setInterval(timer, intervalTime);
     function timer(){
         time += 1; //upgrading time value with 1
         time_line.style.width = time + "px"; //increasing width of time_line with px by time value
