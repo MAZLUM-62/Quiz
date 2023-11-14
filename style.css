@@ -1,5 +1,5 @@
 :root {
-    --main-color: #007bff;
+    --main-color: #3B79A5;
 }
 
 /* importing google fonts */
@@ -385,4 +385,16 @@ footer button.show{
 .buttons button.quit:hover{
     color: #fff;
     background: var(--main-color);
+}
+
+
+
+/* Logo */
+
+.logo-banner {
+    display: flex;
+    margin: 50px;
+    width: 350px;
+    height: 150px;
+
 }
